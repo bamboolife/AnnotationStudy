@@ -26,4 +26,5 @@ Java中存在不少关于注解的Api, 比如@Override用于覆盖父类方法�
 3. 循环处理注解元素(Element)，找到被该注解所修饰的类，方法，或者属性
 4. 生成对应的类，并写入文件
 5. 判断是否所有的注解处理器都已执行完毕，如果没有，继续下一个注解处理器的执行(回到步骤1)
-![image]()
+
+![image](https://github.com/bamboolife/AnnotationStudy/blob/master/image/annotation_flow.png)
