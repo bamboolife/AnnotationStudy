@@ -40,20 +40,28 @@ Java中存在不少关于注解的Api, 比如@Override用于覆盖父类方法�
 @Retention定义了该Annotation被保留的时间长短：某些Annotation仅出现在源代码中，而被编译器丢弃；而另一些却被编译在class文件中；编译在class文件中的Annotation可能会被虚拟机忽略，而另一些在class被装载时将被读取（请注意并不影响class的执行，因为Annotation与class在使用上是被分离的）。使用这个meta-Annotation可以对 Annotation的“生命周期”限制。
 
 作用：表示需要在什么级别保存该注释信息，用于描述注解的生命周期（即：被描述的注解在什么范围内有效）取值（RetentionPoicy）有：
-- SOURCE:在源文件中有效（即源文件保留）
-- CLASS:在class文件中有效（即class保留）
-- RUNTIME:在运行时有效（即运行时保留）
+| RetentionPoicy类型 | 说明 |
+|:------- |:----------- |
+| SOURCE |注解只保留在源文件，当Java文件编译成class文件的时候，注解被遗弃）|
+| CLASS  | 注解被保留到class文件，但jvm加载class文件时候被遗弃，这是默认的生命周期 |
+| RUNTIME | 注解不仅被保存到class文件中，jvm加载class文件之后，仍然存在 |
+
+>SOURCE < CLASS < RUNTIME,前者能作用的地方后者一定也能作用.
 
 #### @Target
 @Target说明了Annotation所修饰的对象范围：Annotation可被用于 packages、types（类、接口、枚举、Annotation类型）、类型成员（方法、构造方法、成员变量、枚举值）、方法参数和本地变量（如循环变量、catch参数）。在Annotation类型的声明中使用了target可更加明晰其修饰的目标。
 <br>作用：用于描述注解的使用范围（即：被描述的注解可以用在什么地方）取值(ElementType)有：
-- CONSTRUCTOR:用于描述构造器
-- FIELD:用于描述域
-- LOCAL_VARIABLE:用于描述局部变量
-- METHOD:用于描述方法
-- PACKAGE:用于描述包
-- PARAMETER:用于描述参数
-- TYPE:用于描述类、接口(包括注解类型) 或enum声明
+| ElementType类型 | 说明 |
+|:------- |:----------- |
+| CONSTRUCTOR | 用于描述构造器 |
+| FIELD | 用于描述域 |
+| LOCAL_VARIABLE | 用于描述局部变量 |
+| METHOD | 用于描述方法 |
+| PACKAGE | 用于描述包 |
+| PARAMETER | 用于描述参数 |
+| TYPE  | 用于描述类、接口(包括注解类型) 或enum声明 |
+| ANNOTATION_TYPE | 注解 |
+
 #### @Inherited
 @Inherited 元注解是一个标记注解，@Inherited阐述了某个被标注的类型是被继承的。如果一个使用了@Inherited修饰的annotation类型被用于一个class，则这个annotation将被用于该class的子类。
 
@@ -69,6 +77,33 @@ Java中存在不少关于注解的Api, 比如@Override用于覆盖父类方法�
 
 ### 自定义注解
 使用@interface自定义注解时，自动继承了java.lang.annotation.Annotation接口，由编译程序自动完成其他细节。在定义注解时，不能继承其他的注解或接口。@interface用来声明一个注解，其中的每一个方法实际上是声明了一个配置参数。方法的名称就是参数的名称，返回值类型就是参数的类型（返回值类型只能是基本类型、Class、String、enum）。可以通过default来声明参数的默认值。
+
+自定义运行是注解大的方面分为两步：一个是申明注解、第二个是解析注解。
+#### 申明注解
+
+- 申明注解步骤：
+
+1. 通过@Retention(RetentionPolicy.RUNTIME)元注解确定我们注解是在运行的时候使用。
+2. 通过@Target确定我们注解是作用在什么上面的(变量、函数、类等)。
+3. 确定我们注解需要的参数
+
+比如下面一段代码我们声明了一个作用在变量上的BindString运行时注解。
+```java
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.FIELD)
+public @interface BindString {
+
+    int value();
+
+}
+```
+- 注解解析
+
+运行时注解的解析我们简单的分为三个步骤：
+
+1. 找到类对应的所有属性或者方法(至于是找类的属性还是方法就要看我自定义的注解是定义方法上还是属性上了)。
+2. 找到添加了我们注解的属性或者方法。
+3. 做我们注解需要自定义的一些操作。
 
 定义注解格式：
 ```java
