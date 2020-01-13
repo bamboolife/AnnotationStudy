@@ -217,7 +217,7 @@ public class FactoryProcessor extends AbstractProcessor {
     }
 
     /**
-     * Annotation Processor扫描出的结果会存储进roundEnvironment中，可以在这里获取到注解内容，编写你的操作逻辑。
+     * 这相当于每个处理器的主函数main()。你在这里写你的扫描、评估和处理注解的代码，以及生成Java文件.Annotation Processor扫描出的结果会存储进roundEnvironment中，可以在这里获取到注解内容，编写你的操作逻辑。
      * 注意:process()函数中不能直接进行异常抛出,否则程序会异常崩溃
      */
     @Override
