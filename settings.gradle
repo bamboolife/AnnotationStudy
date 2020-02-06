@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':test_annotations', ':test_compiler', ':test_api'
 rootProject.name='AnnotationStudy'
