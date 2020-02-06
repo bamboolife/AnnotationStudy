@@ -2,7 +2,7 @@
 
 ## 现在好多第三方框架都在使用注解的方式来实现。既然都在使用肯定有一定的优势，所以就来研究下，注解的好处和优势。为什么大家都在使用
 ## 此工程只用来学习、研究和笔记的记录和网上资源的整理
-[Android 注解开发断点调试](doc/Android 注解开发断点调试.md)
+[Android 注解开发断点调试](https://github.com/bamboolife/AnnotationStudy/blob/master/doc/Android%20%E6%B3%A8%E8%A7%A3%E5%BC%80%E5%8F%91%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95.md)
 
 ### 为什么要使用注解
 ### 优点
